@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 @Service
@@ -101,7 +102,7 @@ public class CustomerAdminBusinessService {
 
             customerAuthTokenEntity.setLoginAt(now);
             customerAuthTokenEntity.setExpiresAt(expiresAt);
-            customerAuthTokenEntity.setUuid(customerEntity.getUuid());
+            customerAuthTokenEntity.setUuid(UUID.randomUUID().toString());
 
             //Call the createAuthToken() method in CustomerDao class for customerDao
             //Pass customerAuthTokenEntity as an argument

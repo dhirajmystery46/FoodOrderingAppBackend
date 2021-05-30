@@ -68,7 +68,7 @@ public class CustomerController {
         //System.out.println(authText);
         byte[] decode = Base64.getDecoder().decode(authorization.split("Basic ")[1]);
         String decodedText = new String(decode);
-        System.out.println(decodedText);
+        //System.out.println(decodedText);
 
         // Validation to check whether the format is contactNumber:password
         //if (!authText.matches("([0-9]+):(.+?)")) {
