@@ -9,8 +9,9 @@ import com.upgrad.FoodOrderingApp.service.exception.SignUpRestrictedException;
 import com.upgrad.FoodOrderingApp.service.exception.UpdateCustomerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -246,5 +247,31 @@ public class CustomerAdminBusinessService {
         // Calls customerDao to get the access token of the customer from the database
         return customerDao.getCustomerAuthToken(accessToken);
     }
+
+    //This method is the Bearer authorization method
+    @Transactional(propagation = Propagation.REQUIRED)
+    public CustomerEntity getCustomer(final String accessToken)throws AuthorizationFailedException{
+
+        CustomerAuthTokenEntity customerAuthEntity=null;
+        if(accessToken!=null){
+            customerAuthEntity = customerDao.getCustomerAuthToken(accessToken);
+        } else {
+            throw new AuthorizationFailedException("ATHR-004","Access token cannot be null");
+        }
+        //if access token doesnt exist in databases
+        if(customerAuthEntity == null){
+            throw new AuthorizationFailedException("ATHR-001","Customer is not Logged in.");
+        }//If access token exiats in database but the customer has already logged out
+        else if (customerAuthEntity != null && customerAuthEntity.getLogoutAt()!= null){
+            throw new AuthorizationFailedException("ATHR-002","Customer is logged out. Log in again to access this endpoint.");
+        }//If access token exists in database but the session has expired
+        else if (customerAuthEntity != null && ZonedDateTime.now().isAfter(customerAuthEntity.getExpiresAt())){
+            throw new AuthorizationFailedException("ATHR-003","Your session is expired. Log in again to access this endpoint.");
+        }
+        else {
+            return customerAuthEntity.getCustomer();
+        }
+    }
+
 
 }
