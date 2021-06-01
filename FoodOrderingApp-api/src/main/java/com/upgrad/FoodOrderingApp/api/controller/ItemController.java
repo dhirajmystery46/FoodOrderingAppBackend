@@ -27,6 +27,8 @@ public class ItemController {
     @Autowired
     private RestaurantService restaurantBusinessService;
 
+    //Lists top 5 items from a restaurant - Top 5 decided based on number of orders
+    //Lists top 5 items by restaurant id
     @RequestMapping(method = RequestMethod.GET, path = "/item/restaurant/{restaurant_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<ItemListResponse> getItemByPopularity(@PathVariable("restaurant_id") final String restaurantUuid)
             throws RestaurantNotFoundException {
