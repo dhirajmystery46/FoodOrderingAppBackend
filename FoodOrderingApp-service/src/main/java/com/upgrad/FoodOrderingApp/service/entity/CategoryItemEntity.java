@@ -1,41 +1,36 @@
 package com.upgrad.FoodOrderingApp.service.entity;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+
 
 @Entity
 @Table(name = "category_item")
-@NamedQueries(
-        {
-                @NamedQuery(name = "categoryItemById", query = "select c from CategoryItemEntity c where c.id=:id")
-        }
-)
-
+@NamedQueries({
+        @NamedQuery(name = "categoryItemByCategoryId", query = "select q from CategoryItemEntity q where q.category = :categoryId"),
+})
 public class CategoryItemEntity implements Serializable {
 
     @Id
-    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
 
     @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "ITEM_ID")
+    @JoinColumn(name = "item_id")
+    @NotNull
     private ItemEntity item;
 
     @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "CATEGORY_ID")
+    @JoinColumn(name = "category_id")
+    @NotNull
     private CategoryEntity category;
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

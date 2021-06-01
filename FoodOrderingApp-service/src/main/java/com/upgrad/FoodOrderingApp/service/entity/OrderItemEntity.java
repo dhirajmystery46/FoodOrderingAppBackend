@@ -1,60 +1,56 @@
 package com.upgrad.FoodOrderingApp.service.entity;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+
+/**
+ * OrderItemEntity class contains all the attributes to be mapped to all the fields in 'order_item' table in the database
+ */
 @Entity
 @Table(name = "order_item")
-@NamedQueries(
-        {
-                @NamedQuery(name = "orderItemById", query = "select o from OrderItemEntity o where o.id=:id"),
-                @NamedQuery(name = "itemsByOrder", query = "select o from OrderItemEntity o where o.orders=:order"),
-        }
-)
-
+@NamedQueries({
+        @NamedQuery(name = "itemsByOrder", query = "select q from OrderItemEntity q where q.order = :orderEntity"),
+})
 public class OrderItemEntity implements Serializable {
 
     @Id
-    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Integer Id;
 
     @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "ORDER_ID")
-    private OrdersEntity orders;
+    @JoinColumn(name = "order_id")
+    @NotNull
+    private OrderEntity order;
 
     @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "ITEM_ID")
+    @JoinColumn(name = "item_id")
+    @NotNull
     private ItemEntity item;
 
-    @Column(name = "QUANTITY")
+    @Column(name = "quantity")
     @NotNull
     private Integer quantity;
 
-    @Column(name="PRICE")
+    @Column(name = "price")
     @NotNull
     private Integer price;
 
-    public long getId() {
-        return id;
+    public Integer getId() {
+        return Id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setId(Integer id) {
+        Id = id;
     }
 
-    public OrdersEntity getOrders() {
-        return orders;
+    public OrderEntity getOrder() {
+        return order;
     }
 
-    public void setOrders(OrdersEntity orders) {
-        this.orders = orders;
+    public void setOrder(OrderEntity order) {
+        this.order = order;
     }
 
     public ItemEntity getItem() {
