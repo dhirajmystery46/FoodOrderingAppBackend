@@ -97,7 +97,7 @@ public class AddressService {
 
     //Getting an address by UUID
     @Transactional(propagation = Propagation.REQUIRED)
-    public AddressEntity getAddressByUUID(final String addressUuid,final CustomerEntity customerEntity) throws AddressNotFoundException, AuthorizationFailedException {
+    public AddressEntity getAddressByUUID(final String addressUuid, final CustomerEntity customerEntity) throws AddressNotFoundException, AuthorizationFailedException {
         //if address id is empty, throw exception
         if(addressUuid.isEmpty()){
             throw new AddressNotFoundException("ANF-005", "Address id can not be empty");

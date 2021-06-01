@@ -14,15 +14,6 @@ public class OrderDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    //Get coupon by coupon name
-    //Returns List<CouponEntity>
-    public List<CouponEntity> getCouponByName(String coupon_name) {
-        try {
-            return (List<CouponEntity>) entityManager.createNamedQuery("couponByCouponName", CustomerEntity.class).setParameter("couponName", coupon_name).getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
 
     //Get coupon by coupon name
     //Returns Single result
