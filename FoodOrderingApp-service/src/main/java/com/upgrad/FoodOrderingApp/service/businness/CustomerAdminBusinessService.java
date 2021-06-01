@@ -131,8 +131,8 @@ public class CustomerAdminBusinessService {
         // Validates the provided access token
         validateAccessToken(authorizationToken);
 
-        //get the customer Details using the customerUuid
-        CustomerEntity customerEntity =  customerDao.getCustomerByUuid(customerAuthTokenEntity.getUuid());
+        //get the customer Details
+        CustomerEntity customerEntity =  customerAuthTokenEntity.getCustomer();
 
         // Throws UpdateCustomerException if firstname is updated to null
         if (updatedCustomerEntity.getFirstName() == null) {
@@ -161,8 +161,8 @@ public class CustomerAdminBusinessService {
         // Validates the provided access token
         validateAccessToken(authorizationToken);
 
-        //get the customer Details using the customerUuid
-        CustomerEntity customerEntity =  customerDao.getCustomerByUuid(customerAuthTokenEntity.getUuid());
+        //get the customer Details from Customer AuthToken
+        CustomerEntity customerEntity =  customerAuthTokenEntity.getCustomer();
 
         // Throws UpdateCustomerException if either old password or new password is null
         if (oldPassword == null || newPassword ==  null) {
@@ -172,6 +172,7 @@ public class CustomerAdminBusinessService {
         // Since the password stored in the database is encrypted, so we also encrypt the password entered by the customer
         // using the Salt attribute in the database
         // Call the encrypt() method in PasswordCryptographyProvider class for CryptographyProvider object
+
         final String encryptedPassword = cryptographyProvider.encrypt(oldPassword, customerEntity.getSalt());
 
         // Throws UpdateCustomerException if old password provided is incorrect

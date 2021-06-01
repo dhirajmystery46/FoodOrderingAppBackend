@@ -14,28 +14,16 @@ import javax.validation.constraints.Size;
 })
 public class StateEntity {
     @Id
-    @Column(
-            name = "ID"
-    )
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(
-            name = "UUID"
-    )
-    @Size(
-            max = 200
-    )
+    @Column(name = "UUID")
+    @Size(max = 200)
     private String uuid;
 
-    @Column(
-            name = "STATE_NAME"
-    )
-    @Size(
-            max = 30
-    )
+    @Column(name = "STATE_NAME")
+    @Size(max = 30)
     private String stateName;
 
     public StateEntity(){
